@@ -13,10 +13,23 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_singleChatFragment"
+            app:destination="@id/singleChatFragment"
+            app:popUpTo="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.projects.mychat.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/singleChatFragment"
+        android:name="com.projects.mychat.SingleChatFragment"
+        android:label="fragment_single_chat"
+        tools:layout="@layout/fragment_single_chat" />
 </navigation>

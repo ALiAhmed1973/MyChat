@@ -32,6 +32,13 @@ FragmentLoginBinding binding;
 
             }
         });
+
+        binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(LoginFragmentDirections.actionLoginFragmentToSingleChatFragment());
+            }
+        });
         return binding.getRoot();
     }
 }
