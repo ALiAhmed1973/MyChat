@@ -16,7 +16,8 @@
         <action
             android:id="@+id/action_loginFragment_to_singleChatFragment"
             app:destination="@id/singleChatFragment"
-            app:popUpTo="@id/loginFragment" />
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -32,4 +33,13 @@
         android:name="com.projects.mychat.SingleChatFragment"
         android:label="fragment_single_chat"
         tools:layout="@layout/fragment_single_chat" />
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.projects.mychat.MyProfileFragment"
+        android:label="fragment_my_profile"
+        tools:layout="@layout/fragment_my_profile" >
+        <action
+            android:id="@+id/action_myProfileFragment_to_singleChatFragment"
+            app:destination="@id/singleChatFragment" />
+    </fragment>
 </navigation>
