@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/main_group_items">
+        <item
+            android:id="@+id/singleChatFragment"
+            android:title="Single Chat" />
+        <item
+            android:id="@+id/myProfileFragment"
+            android:title="Profile" />
+    </group>
+    <group android:id="@+id/second_goup_items" >
+        <item
+            android:id="@+id/logout_item"
+            android:title="Logout" />
+    </group>
+</menu>

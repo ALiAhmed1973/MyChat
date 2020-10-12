@@ -40,6 +40,8 @@
         tools:layout="@layout/fragment_my_profile" >
         <action
             android:id="@+id/action_myProfileFragment_to_singleChatFragment"
-            app:destination="@id/singleChatFragment" />
+            app:destination="@id/singleChatFragment"
+            app:popUpTo="@id/myProfileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
