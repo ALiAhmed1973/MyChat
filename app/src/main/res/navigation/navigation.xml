@@ -44,4 +44,9 @@
             app:popUpTo="@id/myProfileFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/privateChatFragment"
+        android:name="com.projects.mychat.PrivateChatFragment"
+        android:label="fragment_private_chat"
+        tools:layout="@layout/fragment_private_chat" />
 </navigation>
