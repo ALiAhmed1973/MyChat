@@ -17,7 +17,7 @@ import com.projects.mychat.databinding.ActivityMainBinding;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-ActivityMainBinding binding;
+    ActivityMainBinding binding;
     NavHostFragment navHostFragment;
     NavController navController;
     @Override

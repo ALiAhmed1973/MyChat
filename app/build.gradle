@@ -51,4 +51,13 @@ dependencies {
     //chat sdk with firebase
     implementation "sdk.chat:firebase-app:5.0.9"
 
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+
+    // Add the dependency for the Firebase SDK for Google Analytics
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
+
+
 }
