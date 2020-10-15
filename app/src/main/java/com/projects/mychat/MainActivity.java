@@ -38,18 +38,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         // prevent nav gesture if not on start destination
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if(destination.getId()==R.id.loginFragment||destination.getId()==R.id.signUpFragment)
-                {
-                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                }else
-                {
-                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                }
-
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if(destination.getId()==R.id.loginFragment||destination.getId()==R.id.signUpFragment)
+            {
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            }else
+            {
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             }
+
         });
     }
 

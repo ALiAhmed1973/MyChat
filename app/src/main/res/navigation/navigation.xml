@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/singleChatFragment"
-        android:name="com.projects.mychat.SingleChatFragment"
+        android:name="com.projects.mychat.singleChat.SingleChatFragment"
         android:label="fragment_single_chat"
         tools:layout="@layout/fragment_single_chat" />
     <fragment
