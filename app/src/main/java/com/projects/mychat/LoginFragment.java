@@ -52,32 +52,33 @@ FragmentLoginBinding binding;
                     .observeOn(RX.main())
                     .subscribe(()-> {
                         Toast.makeText(view.getContext(),"Login",Toast.LENGTH_SHORT).show();
-                      //    Navigation.findNavController(view).navigate(LoginFragmentDirections.actionLoginFragmentToSingleChatFragment());
+                          Navigation.findNavController(view).navigate(LoginFragmentDirections.actionLoginFragmentToSingleChatFragment());
                     }, throwable -> {
                         Toast.makeText(view.getContext(),throwable.toString(),Toast.LENGTH_LONG).show();
                     });
         });
 
-        binding.buttonLogout.setOnClickListener(view -> {
-//            ChatSDK.auth().logout()
-//                    .observeOn(RX.main())
-//                    .subscribe(()->Log.d("logout","Logout"),
-//                            t->Log.e("login Not working", t.toString()));
-
-            ChatSDK.search().usersForIndex("eng@j.com").observeOn(RX.main()).subscribe(user -> {
-                        Log.d("Added notworking", user.getName());
-            }
-            , t->Log.d("Added notworking", t.toString()));
+//        binding.buttonLogout.setOnClickListener(view -> {
+////            ChatSDK.auth().logout()
+////                    .observeOn(RX.main())
+////                    .subscribe(()->Log.d("logout","Logout"),
+////                            t->Log.e("login Not working", t.toString()));
 //
-// A               dd contact
-//                ChatSDK.contact().addContact(user, ConnectionType.Contact).observeOn(RX.main()).subscribe(() -> {
-//                    // Contact added
-//                    Toast.makeText(view.getContext(),"Contact Added",Toast.LENGTH_LONG).show();
-//                }, T->Log.d("Added notworking", T.toString()));
-        });
+//            ChatSDK.search().usersForIndex("eng@j.com").observeOn(RX.main()).subscribe(user -> {
+//                        Log.d("Added notworking", user.getName());
+//            }
+//            , t->Log.d("Added notworking", t.toString()));
+////
+//// A               dd contact
+////                ChatSDK.contact().addContact(user, ConnectionType.Contact).observeOn(RX.main()).subscribe(() -> {
+////                    // Contact added
+////                    Toast.makeText(view.getContext(),"Contact Added",Toast.LENGTH_LONG).show();
+////                }, T->Log.d("Added notworking", T.toString()));
+//        });
 
 
         if (ChatSDK.auth().isAuthenticated()) {
+            Navigation.findNavController(this.getActivity(),R.id.myNavHostFragment).navigate(LoginFragmentDirections.actionLoginFragmentToSingleChatFragment());
             Log.d("isAuthenticated","yes Authenticated");
         } else {
             Log.d("isAuthenticated","No Authenticated");
