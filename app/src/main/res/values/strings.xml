@@ -19,4 +19,5 @@
     <string name="confirmation_text">Confirmation</string>
     <string name="register_text">Register</string>
     <string name="save_text">Save</string>
+    <string name="add_user_email">Add user Email</string>
 </resources>

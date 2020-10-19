@@ -3,6 +3,8 @@ package com.projects.mychat.singleChat;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +27,8 @@ public class SingleChatFragment extends Fragment implements SingleChatAdapter.On
     FragmentSingleChatBinding binding;
     SingleChatAdapter singleChatAdapter;
     List<User> users ;
+    AddUserPopUp addUserPopUp ;
+    SingleChatViewModel viewModel;
     public SingleChatFragment() {
         // Required empty public constructor
     }
@@ -42,8 +46,17 @@ public class SingleChatFragment extends Fragment implements SingleChatAdapter.On
        users = ChatSDK.contact().contacts();
        singleChatAdapter.setUserListItems(users);
        binding.recyclerViewContacts.setAdapter(singleChatAdapter);
+        addUserPopUp = new AddUserPopUp(getContext());
+
+        viewModel = new ViewModelProvider(this).get(SingleChatViewModel.class);
+        viewModel.getAllOfContacts().observe(getViewLifecycleOwner(),
+                users -> singleChatAdapter.setUserListItems(users));
 
 
+
+       binding.fabAddUsers.setOnClickListener(v -> {
+           addUserPopUp.showPopupWindow(v);
+       });
         return binding.getRoot();
     }
 

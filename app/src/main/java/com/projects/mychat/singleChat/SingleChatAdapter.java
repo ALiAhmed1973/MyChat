@@ -4,9 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.projects.mychat.R;
 
 import java.util.List;
@@ -41,10 +44,12 @@ public class SingleChatAdapter extends
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-
+        TextView  textViewUserName;
+        ImageView imageViewUserImage;
         public ViewHolder(View itemView) {
-
             super(itemView);
+            textViewUserName = itemView.findViewById(R.id.textView_name);
+            imageViewUserImage = itemView.findViewById(R.id.imageView_profile_pic);
 
         }
 
@@ -88,7 +93,9 @@ public class SingleChatAdapter extends
 
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        UserListItem item = userListItems.get(position);
+        User item = userListItems.get(position);
+        holder.textViewUserName.setText(item.getName());
+        Glide.with(context).load(item.getAvatarURL()).into(holder.imageViewUserImage);
 
         holder.bind(item, onItemClickListener);
 
