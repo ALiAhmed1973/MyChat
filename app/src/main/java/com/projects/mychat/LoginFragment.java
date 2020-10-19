@@ -64,27 +64,11 @@ FragmentLoginBinding binding;
 //                    .subscribe(()->Log.d("logout","Logout"),
 //                            t->Log.e("login Not working", t.toString()));
 
-            ChatSDK.search().usersForIndexes("eng@j.com").observeOn(RX.main()).subscribe(new Observer<User>() {
-                @Override
-                public void onSubscribe(Disposable d) {
-
-                }
-
-                @Override
-                public void onNext(User user) {
-                    Log.d("Searching working",user.getEmail());
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Log.d("Searching working",e.toString());
-                }
-
-                @Override
-                public void onComplete() {
-                    Log.d("Searching working","completed");
-                }
-            });
+            ChatSDK.search().usersForIndex("eng@j.com").observeOn(RX.main()).subscribe(user -> {
+                        Log.d("Added notworking", user.getName());
+            }
+            , t->Log.d("Added notworking", t.toString()));
+//
 // A               dd contact
 //                ChatSDK.contact().addContact(user, ConnectionType.Contact).observeOn(RX.main()).subscribe(() -> {
 //                    // Contact added
