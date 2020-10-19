@@ -11,24 +11,31 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.projects.mychat.databinding.ActivityMainBinding;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+import sdk.chat.core.session.ChatSDK;
+import sdk.guru.common.RX;
+
+public class MainActivity extends AppCompatActivity{
     ActivityMainBinding binding;
     NavHostFragment navHostFragment;
     NavController navController;
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        navigationView = findViewById(R.id.navView);
          navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.myNavHostFragment);
          navController = Objects.requireNonNull(navHostFragment).getNavController();
         AppBarConfiguration appBarConfiguration =
@@ -48,6 +55,24 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+            if(item.getItemId()==R.id.logout_item)
+        {
+            Log.d("logout","Logout");
+            ChatSDK.auth().logout()
+                    .observeOn(RX.main())
+                    .subscribe(()->{
+                              navController.navigate(navController.getGraph().getStartDestination());
+                        Log.d("logout","Logout");},
+                            t->Log.e("login Not working", t.toString()));
+            return true;
+        }else
+            {
+                return false;
+            }
+
+        });
     }
 
     @Override
@@ -56,4 +81,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        if(item.getItemId()==R.id.logout_item)
+//        {
+//            Log.d("logout","Logout");
+//            ChatSDK.auth().logout()
+//                    .observeOn(RX.main())
+//                    .subscribe(()->{
+//                              navController.navigate(navController.getGraph().getStartDestination());
+//                        Log.d("logout","Logout");},
+//                            t->Log.e("login Not working", t.toString()));
+//        }
+//        return true;
+//    }
 }
