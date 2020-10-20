@@ -32,7 +32,11 @@
         android:id="@+id/singleChatFragment"
         android:name="com.projects.mychat.singleChat.SingleChatFragment"
         android:label="fragment_single_chat"
-        tools:layout="@layout/fragment_single_chat" />
+        tools:layout="@layout/fragment_single_chat" >
+        <action
+            android:id="@+id/action_singleChatFragment_to_privateChatFragment"
+            app:destination="@id/privateChatFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myProfileFragment"
         android:name="com.projects.mychat.MyProfileFragment"
@@ -46,7 +50,11 @@
     </fragment>
     <fragment
         android:id="@+id/privateChatFragment"
-        android:name="com.projects.mychat.PrivateChatFragment"
+        android:name="com.projects.mychat.privatechat.PrivateChatFragment"
         android:label="fragment_private_chat"
-        tools:layout="@layout/fragment_private_chat" />
+        tools:layout="@layout/fragment_private_chat" >
+        <argument
+            android:name="currentUser"
+            app:argType="com.projects.mychat.ChatUser" />
+    </fragment>
 </navigation>
