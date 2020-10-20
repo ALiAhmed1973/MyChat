@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sdk.chat.core.dao.User;
-import sdk.chat.core.interfaces.UserListItem;
 
 public class SingleChatAdapter extends
 

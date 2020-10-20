@@ -35,7 +35,7 @@ public class SingleChatViewModel extends ViewModel {
 
 
 
-    private void getContacts()
+    public void getContacts()
     {
         ListOfContacts.setValue(ChatSDK.contact().contacts());
     }

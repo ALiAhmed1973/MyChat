@@ -33,9 +33,11 @@ import sdk.guru.common.RX;
 
 public class AddUserPopUp {
 Context context;
+SingleChatViewModel viewModel;
 
-public AddUserPopUp(Context context){
+public AddUserPopUp(Context context,SingleChatViewModel viewModel){
     this.context = context;
+    this.viewModel=viewModel;
 }
 
     @SuppressLint("CheckResult")
@@ -57,7 +59,6 @@ public AddUserPopUp(Context context){
         Button buttonAddUser = popUpView.findViewById(R.id.button_add_user);
         buttonAddUser.setOnClickListener(v -> {
             SearchForAddUser(editTextSearchUserMail.getText().toString().trim(),popupWindow);
-
 
         });
 
@@ -86,6 +87,7 @@ public AddUserPopUp(Context context){
                 {
                     ChatSDK.contact().addContact(user, ConnectionType.Contact).observeOn(RX.main()).subscribe(() -> {
                         popupWindow.dismiss();
+                        viewModel.getContacts();
                         Toast.makeText(context,"Contact Added",Toast.LENGTH_LONG).show();
                     }, T -> {
                         Log.d("Added notworking", T.toString());

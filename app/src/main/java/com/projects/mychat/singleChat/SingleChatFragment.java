@@ -56,7 +56,7 @@ public class SingleChatFragment extends Fragment implements SingleChatAdapter.On
        singleChatAdapter.setUserListItems(users);
        binding.recyclerViewContacts.setAdapter(singleChatAdapter);
 
-        addUserPopUp = new AddUserPopUp(getContext());
+        addUserPopUp = new AddUserPopUp(getContext(),viewModel);
 
         viewModel.getAllOfContacts().observe(getViewLifecycleOwner(),
                 users ->
