@@ -21,13 +21,13 @@ import sdk.chat.core.session.ChatSDK;
 import sdk.chat.core.types.ConnectionType;
 import sdk.guru.common.RX;
 
-public class SingleChatViewModel extends AndroidViewModel {
+public class SingleChatViewModel extends ViewModel {
     private MutableLiveData<List<User>> ListOfContacts = new MutableLiveData<>();
+    private Context context;
 
-
-
-    public SingleChatViewModel(@NonNull Application application) {
-        super(application);
+    public SingleChatViewModel(Context context)
+    {
+        this.context = context;
         getContacts();
     }
 

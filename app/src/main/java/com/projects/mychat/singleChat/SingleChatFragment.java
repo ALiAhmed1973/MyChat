@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.projects.mychat.ChatUser;
+import com.projects.mychat.R;
 import com.projects.mychat.databinding.FragmentSingleChatBinding;
 
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ public class SingleChatFragment extends Fragment implements SingleChatAdapter.On
     List<User> users ;
     AddUserPopUp addUserPopUp ;
     SingleChatViewModel viewModel;
+    SingleChatModelFactory singleChatModelFactory;
     public SingleChatFragment() {
         // Required empty public constructor
     }
@@ -40,17 +44,24 @@ public class SingleChatFragment extends Fragment implements SingleChatAdapter.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        binding= FragmentSingleChatBinding.inflate(inflater,container,false);
+
+        singleChatModelFactory = new SingleChatModelFactory(getContext());
+        viewModel = new ViewModelProvider(this,singleChatModelFactory).get(SingleChatViewModel.class);
+
        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
        binding.recyclerViewContacts.setLayoutManager(linearLayoutManager);
        singleChatAdapter = new SingleChatAdapter(getContext(),this);
+
        users = ChatSDK.contact().contacts();
        singleChatAdapter.setUserListItems(users);
        binding.recyclerViewContacts.setAdapter(singleChatAdapter);
+
         addUserPopUp = new AddUserPopUp(getContext());
 
-        viewModel = new ViewModelProvider(this).get(SingleChatViewModel.class);
         viewModel.getAllOfContacts().observe(getViewLifecycleOwner(),
-                users -> singleChatAdapter.setUserListItems(users));
+                users ->
+                singleChatAdapter.setUserListItems(users)
+                );
 
 
 
@@ -61,7 +72,12 @@ public class SingleChatFragment extends Fragment implements SingleChatAdapter.On
     }
 
     @Override
-    public void onItemClick(int position) {
-
+    public void onItemClick(User currentUser) {
+        ChatUser chatUser = new ChatUser(currentUser);
+        if(chatUser!=null) {
+            Navigation.findNavController(this.getActivity(), R.id.myNavHostFragment).
+                    navigate(SingleChatFragmentDirections.actionSingleChatFragmentToPrivateChatFragment(chatUser));
+            Log.d("SingleChatFragment", "onItemClick: " + currentUser.getEmail());
+        }
     }
 }
