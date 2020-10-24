@@ -27,7 +27,6 @@ import sdk.guru.common.RX;
 
 public class SignUpFragment extends Fragment {
 
-    private static String urlImage = "";
     private FragmentSignUpBinding binding;
     private String email;
     private String name;
@@ -60,14 +59,10 @@ public class SignUpFragment extends Fragment {
                 details.type = AccountDetails.Type.Register;
                 details.username=email;
                 details.password=password;
+                binding.signUpProgressbar.setVisibility(View.VISIBLE);
 
-                ChatSDK.auth().authenticate(details).observeOn(RX.main()).subscribe(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        pushUser(name);
-                    }
-                }
-            , throwable -> {
+                ChatSDK.auth().authenticate(details).observeOn(RX.main()).subscribe(() -> pushUser(name)
+                        , throwable -> {
                     Log.d("authenticateNot working", throwable.toString());
                     Toast.makeText(view.getContext(),throwable.toString(),Toast.LENGTH_LONG).show();
                 });
@@ -82,13 +77,15 @@ public class SignUpFragment extends Fragment {
 
     @SuppressLint("CheckResult")
     private void pushUser(String name){
-        Toast.makeText(getContext(),"registered",Toast.LENGTH_SHORT).show();
         User currentUser = ChatSDK.core().currentUser();
         currentUser.setName(name);
         ChatSDK.core().pushUser().observeOn(RX.main()).subscribe(() -> {
+            Toast.makeText(getContext(),"registered",Toast.LENGTH_SHORT).show();
+            binding.signUpProgressbar.setVisibility(View.INVISIBLE);
             Log.d("pushing working", "success");
             Navigation.findNavController(requireView()).navigate(SignUpFragmentDirections.actionSignUpFragmentToLoginFragment());
         }, throwable -> {
+            binding.signUpProgressbar.setVisibility(View.INVISIBLE);
             Log.d("pushingNot working", throwable.toString());
         });
     }
