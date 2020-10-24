@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.projects.mychat.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sdk.chat.core.dao.User;
@@ -27,18 +26,16 @@ public class SingleChatAdapter extends
 
 
 
-    private List<User> userListItems = new ArrayList<>();
+    private List<User> userListItems ;
 
     private OnItemClickListener onItemClickListener;
 
-    public SingleChatAdapter(Context context,
+    public SingleChatAdapter(Context context,List<User> list,
 
                              OnItemClickListener onItemClickListener) {
 
         this.context = context;
-//
-//        this.userListItems = list;
-
+        this.userListItems = list;
         this.onItemClickListener = onItemClickListener;
 
     }
@@ -96,13 +93,11 @@ public class SingleChatAdapter extends
         User item = userListItems.get(position);
         holder.textViewUserName.setText(item.getName());
         Glide.with(context).load(item.getAvatarURL()).into(holder.imageViewUserImage);
-
         holder.bind(item, onItemClickListener);
 
     }
     public void setUserListItems(List<User> userListItems) {
-        this.userListItems.clear();
-        this.userListItems.addAll(userListItems);
+        this.userListItems=userListItems;
         notifyDataSetChanged();
     }
     @Override

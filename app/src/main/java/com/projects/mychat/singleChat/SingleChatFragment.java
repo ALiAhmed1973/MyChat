@@ -1,18 +1,16 @@
 package com.projects.mychat.singleChat;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.projects.mychat.ChatUser;
 import com.projects.mychat.R;
@@ -26,10 +24,10 @@ import sdk.chat.core.session.ChatSDK;
 
 
 public class SingleChatFragment extends Fragment implements SingleChatAdapter.OnItemClickListener {
-
+    private static final String TAG = SingleChatFragment.class.getSimpleName();
     FragmentSingleChatBinding binding;
     SingleChatAdapter singleChatAdapter;
-    List<User> users ;
+    List<User> users = new ArrayList<>();
     AddUserPopUp addUserPopUp ;
     SingleChatViewModel viewModel;
     SingleChatModelFactory singleChatModelFactory;
@@ -44,30 +42,26 @@ public class SingleChatFragment extends Fragment implements SingleChatAdapter.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        binding= FragmentSingleChatBinding.inflate(inflater,container,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
+        binding.recyclerViewContacts.setLayoutManager(linearLayoutManager);
+        singleChatAdapter = new SingleChatAdapter(getContext(),users,this);
+        binding.recyclerViewContacts.setAdapter(singleChatAdapter);
+
 
         singleChatModelFactory = new SingleChatModelFactory(getContext());
         viewModel = new ViewModelProvider(this,singleChatModelFactory).get(SingleChatViewModel.class);
-
-       LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
-       binding.recyclerViewContacts.setLayoutManager(linearLayoutManager);
-       singleChatAdapter = new SingleChatAdapter(getContext(),this);
-
-       users = ChatSDK.contact().contacts();
-       singleChatAdapter.setUserListItems(users);
-       binding.recyclerViewContacts.setAdapter(singleChatAdapter);
-
-        addUserPopUp = new AddUserPopUp(getContext(),viewModel);
-
         viewModel.getAllOfContacts().observe(getViewLifecycleOwner(),
                 users ->
-                singleChatAdapter.setUserListItems(users)
-                );
+                        singleChatAdapter.setUserListItems(users)
+        );
 
-
+        addUserPopUp = new AddUserPopUp(getContext(),viewModel);
 
        binding.fabAddUsers.setOnClickListener(v -> {
            addUserPopUp.showPopupWindow(v);
        });
+
+
         return binding.getRoot();
     }
 

@@ -24,6 +24,7 @@ import sdk.guru.common.RX;
 public class SingleChatViewModel extends ViewModel {
     private MutableLiveData<List<User>> ListOfContacts = new MutableLiveData<>();
     private Context context;
+    private static final String TAG=SingleChatViewModel.class.getSimpleName();
 
     public SingleChatViewModel(Context context)
     {
@@ -37,7 +38,10 @@ public class SingleChatViewModel extends ViewModel {
 
     public void getContacts()
     {
-        ListOfContacts.setValue(ChatSDK.contact().contacts());
+
+        List<User> users = ChatSDK.contact().contacts();
+        ListOfContacts.setValue(users);
+        Log.d(TAG, "getContacts: "+users.toString());
     }
 
     @SuppressLint("CheckResult")
