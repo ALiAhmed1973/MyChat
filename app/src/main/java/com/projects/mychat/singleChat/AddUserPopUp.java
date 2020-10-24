@@ -13,17 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-
 import com.projects.mychat.R;
-import com.projects.mychat.databinding.AddUserPopupBinding;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.Inflater;
 
 import io.reactivex.disposables.Disposable;
 import sdk.chat.core.dao.User;
@@ -46,7 +36,7 @@ public AddUserPopUp(Context context,SingleChatViewModel viewModel){
        LayoutInflater inflater= (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
        View popUpView = inflater.inflate(R.layout.add_user_popup,null);
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.MATCH_PARENT;
 
 
         final PopupWindow popupWindow = new PopupWindow(popUpView,width,height,true);
