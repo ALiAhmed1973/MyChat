@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.projects.mychat.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sdk.chat.core.dao.Message;
@@ -25,25 +26,25 @@ public class PrivateChatAdapter extends
 
     private Context context;
 
-    public void setMessageList(List<Message> list) {
-        this.list = list;
-        notifyDataSetChanged();
-    }
+
 
     private List<Message> list;
 
     private OnItemClickListener onItemClickListener;
 
-    public PrivateChatAdapter(Context context, List<Message> list) {
+    public PrivateChatAdapter(Context context) {
 
         this.context = context;
 
-        this.list = list;
 
 //        this.onItemClickListener = onItemClickListener;
 
     }
 
+    public void setMessageList(List<Message> list) {
+        this.list = list;
+        notifyDataSetChanged();
+    }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewChat ;
         ImageView imageViewProfilePic;
@@ -90,7 +91,9 @@ public class PrivateChatAdapter extends
 
     @Override
     public int getItemCount() {
-
+        if (list == null) {
+            return 0;
+        }
         return list.size();
 
     }

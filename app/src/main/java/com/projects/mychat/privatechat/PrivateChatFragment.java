@@ -3,6 +3,9 @@ package com.projects.mychat.privatechat;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,10 +34,8 @@ import sdk.guru.common.RX;
 public class PrivateChatFragment extends Fragment {
     private static final String TAG = PrivateChatFragment.class.getSimpleName();
     private User user;
-    private Thread thread;
     private FragmentPrivateChatBinding binding;
     private PrivateChatAdapter adapter;
-    private List<Message> messageList = new ArrayList<>();
 
     public PrivateChatFragment() {
         // Required empty public constructor
@@ -52,67 +53,37 @@ public class PrivateChatFragment extends Fragment {
             user = chatUser.getUser();
             Log.d("PrivateChatFragment", "onCreateView: " + chatUser.getUser().getEmail());
         }
-        adapter = new PrivateChatAdapter(getContext(), messageList);
+        PrivateChatModelFactory modelFactory = new PrivateChatModelFactory(getContext(),user);
+        PrivateChatViewModel viewModel= new ViewModelProvider(this,modelFactory).get(PrivateChatViewModel.class);
+
+        adapter = new PrivateChatAdapter(getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        linearLayoutManager.setStackFromEnd(true);
         binding.recyclerViewChat.setLayoutManager(linearLayoutManager);
         binding.recyclerViewChat.setAdapter(adapter);
-        createThread("thread name:" + user.getName(), user);
 
+        viewModel.getMessagesMutableLiveData().observe(getViewLifecycleOwner(), messages -> {
+            adapter.setMessageList(messages);
+            binding.recyclerViewChat.smoothScrollToPosition(adapter.getItemCount());
+        });
 
-        binding.imageButtonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendTextMessage(binding.editTextTextMultiLine.getText().toString(), thread);
+        viewModel.clearEditText.observe(getViewLifecycleOwner(), isSuccess -> {
+            if(isSuccess)
+            {
+                binding.editTextTextMultiLine.setText("");
+                viewModel.clearEditText.setValue(false);
             }
         });
-        messageReceived();
+
+
+        binding.imageButtonSend.setOnClickListener(v ->
+                viewModel.sendTextMessage(binding.editTextTextMultiLine.getText().toString()));
         return binding.getRoot();
     }
 
-    private void createThread(String name, User user) {
-        ChatSDK.thread().createThread(name, user, ChatSDK.currentUser())
-                .observeOn(RX.main())
-                .doFinally(() -> {
-                    // Runs when process completed from error or success
-                })
-                .subscribe(thread -> {
-                    // When the thread type created
-                    this.thread = thread;
-                    messageList = thread.getMessages();
-                    adapter.setMessageList(messageList);
-                    Log.d("PrivateChatFragment", "createThread: " + thread.getEntityID());
-                    Log.d("PrivateChatFragment", "createThread: " + thread.getMessages());
-                }, throwable -> {
-                    // If there type an error
-                    Log.d("PrivateChatFragment", "createThread: " + throwable.getMessage());
-                });
 
-    }
 
-    private void sendTextMessage(String message, Thread thread) {
-        ChatSDK.thread().sendMessageWithText(message, thread).subscribe(() -> {
-            Log.d("PrivateChatFragment", "sendTextMessage: " + "success");
-            binding.editTextTextMultiLine.setText("");
-            messageList = thread.getMessages();
-            adapter.setMessageList(messageList);
-        }, throwable -> {
-            Log.d("PrivateChatFragment", "sendTextMessage: " + "failed " + throwable.getMessage());
-        });
-    }
 
-    private void messageReceived() {
-        ChatSDK.hook().addHook(Hook.sync(data -> {
-            Message message = (Message) data.get(HookEvent.Message);
-            Log.d(TAG, "messageReceived: "+message.getText());
-            messageList = thread.getMessages();
-            adapter.setMessageList(messageList);
-        }), HookEvent.MessageReceived);
 
-        // Asynchronous code
-        ChatSDK.hook().addHook(Hook.async(data -> Completable.create(emitter -> {
-            // ... Async code here
-            emitter.onComplete();
-            Log.d(TAG, "messageReceived: "+data.toString());
-        })), HookEvent.MessageReceived);
-    }
+
 }
