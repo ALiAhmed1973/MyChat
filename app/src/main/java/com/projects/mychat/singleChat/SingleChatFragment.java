@@ -72,6 +72,8 @@ public class SingleChatFragment extends Fragment implements SingleChatAdapter.On
             Navigation.findNavController(this.getActivity(), R.id.myNavHostFragment).
                     navigate(SingleChatFragmentDirections.actionSingleChatFragmentToPrivateChatFragment(chatUser));
             Log.d("SingleChatFragment", "onItemClick: " + currentUser.getEmail());
+
+
         }
     }
 }

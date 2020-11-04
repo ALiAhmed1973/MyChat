@@ -12,16 +12,16 @@ import sdk.chat.core.dao.User;
 
 public class PrivateChatModelFactory extends ViewModelProvider.NewInstanceFactory {
     Context context;
-    User user;
+    String userEntityId;
 
-    public PrivateChatModelFactory(Context context, User user) {
+    public PrivateChatModelFactory(Context context, String userEntityId) {
         this.context=context;
-        this.user=user;
+        this.userEntityId=userEntityId;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new PrivateChatViewModel(context,user);
+        return (T) new PrivateChatViewModel(context,userEntityId);
     }
 }

@@ -33,10 +33,9 @@ import sdk.guru.common.RX;
 
 public class PrivateChatFragment extends Fragment {
     private static final String TAG = PrivateChatFragment.class.getSimpleName();
-    private User user;
     private FragmentPrivateChatBinding binding;
     private PrivateChatAdapter adapter;
-
+    private ChatUser chatUser;
     public PrivateChatFragment() {
         // Required empty public constructor
     }
@@ -49,11 +48,11 @@ public class PrivateChatFragment extends Fragment {
         binding = FragmentPrivateChatBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
             PrivateChatFragmentArgs args = PrivateChatFragmentArgs.fromBundle(getArguments());
-            ChatUser chatUser = args.getCurrentUser();
-            user = chatUser.getUser();
-            Log.d("PrivateChatFragment", "onCreateView: " + chatUser.getUser().getEmail());
+          chatUser = args.getCurrentUser();
+//            Log.d("PrivateChatFragment", "onCreateView: " + chatUser.getUser().getEmail());
         }
-        PrivateChatModelFactory modelFactory = new PrivateChatModelFactory(getContext(),user);
+
+        PrivateChatModelFactory modelFactory = new PrivateChatModelFactory(getContext(),chatUser.getEntityID());
         PrivateChatViewModel viewModel= new ViewModelProvider(this,modelFactory).get(PrivateChatViewModel.class);
 
         adapter = new PrivateChatAdapter(getContext());

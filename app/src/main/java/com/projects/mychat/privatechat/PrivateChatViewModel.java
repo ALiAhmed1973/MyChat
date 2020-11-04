@@ -30,8 +30,10 @@ public class PrivateChatViewModel extends ViewModel {
     private MutableLiveData<List<Message>> messagesMutableLiveData = new MutableLiveData<>();
     private Thread thread;
     public MutableLiveData<Boolean> clearEditText =  new MutableLiveData<>();
-    public PrivateChatViewModel(Context context,User  user){
+    private User user;
+    public PrivateChatViewModel(Context context,String  userEntityId){
         this.context=context;
+         user=  ChatSDK.core().getUserNowForEntityID(userEntityId);
         createThread("thread name:" + user.getEmail(),user);
         listeningMessageReceived();
         getMessageReceived();
