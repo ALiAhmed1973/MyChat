@@ -1,34 +1,17 @@
 package com.projects.mychat.privatechat;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-
 import com.projects.mychat.ChatUser;
 import com.projects.mychat.databinding.FragmentPrivateChatBinding;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import io.reactivex.Completable;
-import sdk.chat.core.dao.Message;
-import sdk.chat.core.dao.Thread;
-import sdk.chat.core.dao.User;
-import sdk.chat.core.hook.Hook;
-import sdk.chat.core.hook.HookEvent;
-import sdk.chat.core.session.ChatSDK;
-import sdk.guru.common.RX;
 
 
 public class PrivateChatFragment extends Fragment {
@@ -77,6 +60,7 @@ public class PrivateChatFragment extends Fragment {
 
         binding.imageButtonSend.setOnClickListener(v ->
                 viewModel.sendTextMessage(binding.editTextTextMultiLine.getText().toString()));
+
         return binding.getRoot();
     }
 
