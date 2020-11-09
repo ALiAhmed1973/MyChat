@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity{
     NavHostFragment navHostFragment;
     NavController navController;
     NavigationView navigationView;
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,27 +56,25 @@ public class MainActivity extends AppCompatActivity{
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             }
 
-        });
 
-        navigationView.setNavigationItemSelectedListener(item -> {
-            if(item.getItemId()==R.id.logout_item)
-        {
-            Log.d("logout","Logout");
-            ChatSDK.auth().logout()
-                    .observeOn(RX.main())
-                    .subscribe(()->{
-                              navController.navigate(navController.getGraph().getStartDestination());
-                        Log.d("logout","Logout");},
-                            t->Log.e("login Not working", t.toString()));
+        });
+        navigationView.getMenu().findItem(R.id.logout_item).setOnMenuItemClickListener(item -> {
+           logout();
             return true;
-        }else
-            {
-                return false;
-            }
-
         });
+
     }
 
+    @SuppressLint("CheckResult")
+    private void logout(){
+        Log.d("logout","Logout");
+        ChatSDK.auth().logout()
+                .observeOn(RX.main())
+                .subscribe(()->{
+                            navController.navigate(navController.getGraph().getStartDestination());
+                            Log.d("logout","Logout");},
+                        t->Log.e("login Not working", t.toString()));
+    }
     @Override
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(navController,binding.drawerLayout);
@@ -82,18 +82,5 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-//    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        if(item.getItemId()==R.id.logout_item)
-//        {
-//            Log.d("logout","Logout");
-//            ChatSDK.auth().logout()
-//                    .observeOn(RX.main())
-//                    .subscribe(()->{
-//                              navController.navigate(navController.getGraph().getStartDestination());
-//                        Log.d("logout","Logout");},
-//                            t->Log.e("login Not working", t.toString()));
-//        }
-//        return true;
-//    }
+
 }
